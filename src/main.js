@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import router from './router';
 import './style.scss';
 import App from './App.vue';
 
@@ -18,6 +17,5 @@ import { faCode, faPaintBrush, faRocket, faHandshake, faLaptopCode, faMobileAlt,
 library.add(faCode, faPaintBrush, faRocket, faHandshake, faLaptopCode, faMobileAlt, faCloud, faDatabase);
 
 const app = createApp(App);
-app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon); // Registrazione globale del componente FontAwesome
 app.mount('#app');
