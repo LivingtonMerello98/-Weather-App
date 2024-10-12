@@ -16,6 +16,14 @@ export default {
 <template>
     <section class="bg-dark">
         <HeaderComponent />
+        <div class="col-md-6">
+            <!-- weather-display -->
+
+        </div>
+        <div class="col-md-6">
+            <!-- weather-forecast -->
+             
+        </div>
     </section>
 </template>
 

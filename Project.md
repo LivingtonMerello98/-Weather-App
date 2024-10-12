@@ -10,14 +10,14 @@ Fase 1:
     •Velocità e direzione del vento
     •Umidità e copertura nuvolosa
 
-[]ottimizzazione dell'area di sviluppo
+[x]ottimizzazione dell'area di sviluppo
 
-    []rimozione dei file inutili
-    []comprensione del weirframe e dell'interazione dei componenti
+    [x]rimozione dei file inutili
+    [x]comprensione del weirframe e dell'interazione dei componenti
 
 []creazione dei componenti base utili:
 
-    []header/search-bar -> input con il parametro di ricerca (es: "Milano")
+    [x]header/search-bar -> input con il parametro di ricerca (es: "Milano")
     []weather-display -> - componente che mostrerà le condizioni  **Attuali** del meteo.
                          - Props: Riceve i dati meteo attuali dall'API.
                          - Contenuto:
