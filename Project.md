@@ -18,7 +18,7 @@ Fase 1:
 []creazione dei componenti base utili:
 
     [x]header/search-bar -> input con il parametro di ricerca (es: "Milano")
-    []weather-display -> - componente che mostrerà le condizioni  **Attuali** del meteo.
+    [x]weather-display -> - componente che mostrerà le condizioni  **Attuali** del meteo.
                          - Props: Riceve i dati meteo attuali dall'API.
                          - Contenuto:
                             • Mostra la temperatura attuale.
