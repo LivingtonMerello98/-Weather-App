@@ -21,13 +21,13 @@ export default {
 <template>
     <section>
         <HeaderComponent />
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
+        <div>
+            <div>
+                <div>
                     <!-- weather-display -->
                     <WeatherDisplay/>
                 </div>
-                <div class="col-md-6">
+                <div >
                     <!-- weather-forecast -->
                     <WeatherForecast/>
                 </div>

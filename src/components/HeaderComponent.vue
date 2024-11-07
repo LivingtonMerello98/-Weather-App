@@ -17,13 +17,13 @@ export default{
 </script>
 
 <template>
-    <header class="p-3 bg-dark text-white">
-       <div class="container">
-          <div class="row">
-             <div class="col-md-6">
+    <header>
+       <div>
+          <div>
+             <div>
              </div>
 
-             <div class="col-md-6">
+             <div >
                 <!-- componente search-bar -->
                 <SearchBarComponent/>
                 

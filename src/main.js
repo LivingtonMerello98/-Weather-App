@@ -2,9 +2,9 @@ import { createApp } from 'vue';
 import './style.scss';
 import App from './App.vue';
 
-// bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
+// tailwind
+import './tailwind.css';
+
 
 // fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core';
