@@ -3,6 +3,7 @@
 //importare axios
 import HeaderComponent from './components/HeaderComponent.vue';
 import WeatherDisplay from './components/WeatherDisplay.vue';
+import WeatherForecast from './components/WeatherForecast.vue';
 
 
 
@@ -10,7 +11,8 @@ export default {
 
     components: {
         HeaderComponent,
-        WeatherDisplay
+        WeatherDisplay,
+        WeatherForecast
     }
 }
 
@@ -19,13 +21,17 @@ export default {
 <template>
     <section>
         <HeaderComponent />
-        <div class="col-md-6">
-            <!-- weather-display -->
-            <WeatherDisplay/>
-        </div>
-        <div class="col-md-6">
-            <!-- weather-forecast -->
-
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- weather-display -->
+                    <WeatherDisplay/>
+                </div>
+                <div class="col-md-6">
+                    <!-- weather-forecast -->
+                    <WeatherForecast/>
+                </div>
+            </div>
         </div>
     </section>
 </template>

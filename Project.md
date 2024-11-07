@@ -25,7 +25,7 @@ Fase 1:
                             • Descrizione del tempo (es. pioggia, sole).
                             • Umidità e altre variabili (visibilità, pressione, ecc.).
 
-    []weather-forecast -> - componente che mostrerà le condizioni  **Nell'avvenire** del meteo.
+    [x]weather-forecast -> - componente che mostrerà le condizioni  **Nell'avvenire** del meteo.
                           - Props: Riceve i dati meteo futuri dall'API.
                           Contenuto:
                             • Una lista delle previsioni con le temperature e le condizioni meteo orarie/giornaliere.
@@ -44,6 +44,6 @@ Fase 1:
                       • Contenuto: Messaggio di errore personalizzato e pulsante di retry.
 
 
-* il layout iniziale dell applicativo Weather-App sarà composto da un header contenente
-  un campo di ricerca e un pulsante di ricerca, e un contenuto principale che mostra le specifiche sul tempo, all'interno di un container suddiviso 
-  in 2 colonne.
+il layout iniziale dell applicativo Weather-App sarà composto da un header contenente
+un campo di ricerca e un pulsante di ricerca, e un contenuto principale che mostra le specifiche sul tempo, all'interno di un container suddiviso 
+in 2 colonne.
