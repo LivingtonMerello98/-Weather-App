@@ -15,6 +15,9 @@ export default {
         
     // controlla se è stata inserita una città
     if (!this.cityName) return;
+    
+    //caricamento
+    store.setLoading(true); 
 
         try {
             // si effettua la chiamata api passando come parametro il nome della città
@@ -23,6 +26,7 @@ export default {
             //se i data di geoResponse sono vuoti si lancia errore
             if (geoResponse.data.length === 0) {
                 console.error('Città non trovata');
+                store.setLoading(false); //dis. caricamento
                 return;
             }
 
@@ -35,11 +39,17 @@ export default {
             // chiamata axios all'url completo
             const weatherResponse = await axios.get(weatherUrl);
 
-            //log della risposta
             console.log('Dati meteo:', weatherResponse.data);
+
+            // dati meteo salvati nello store
+            store.setWeatherData(weatherResponse.data);
+
 
         } catch (error) {
             console.error('Errore durante la richiesta meteo:', error);
+            store.setError('Errore nella richiesta dei dati meteo');
+        }finally {
+            store.setLoading(false); // dis. caricamento
         }
 
     },
