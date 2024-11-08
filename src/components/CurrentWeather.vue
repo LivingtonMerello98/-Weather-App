@@ -4,32 +4,38 @@ import { store } from '../store';
 export default {
   name: 'CurrentWeather',
   computed: {
-    weatherData() {
-      return store.weatherData?.current;  // Aggiungiamo l'accesso a current
+    // Ottieni i dati meteo correnti dallo store
+    currentWeather() {
+      return store.getters.currentWeather(); 
     },
+
+    //metodo che ritorna weather.data.current dallo store e valuta l'esistenza di valori
     temperature() {
-      return this.weatherData ? (this.weatherData.temp - 273.15).toFixed(2) : null;  // Converto da Kelvin a Celsius
+      return this.currentWeather ? (this.currentWeather.temp - 273.15).toFixed(2) : null;  // Converte la temperatura da Kelvin a Celsius
+    },
+    feelsLike() {
+      return this.currentWeather ? (this.currentWeather.feels_like - 273.15).toFixed(2) : null; // Converte la "feel-like" temperature
     },
     humidity() {
-      return this.weatherData ? this.weatherData.humidity : null;
+      return this.currentWeather ? this.currentWeather.humidity : null;
     },
     pressure() {
-      return this.weatherData ? this.weatherData.pressure : null;
+      return this.currentWeather ? this.currentWeather.pressure : null;
     },
     windSpeed() {
-      return this.weatherData ? this.weatherData.wind_speed : null;
+      return this.currentWeather ? this.currentWeather.wind_speed : null;
     },
     windDirection() {
-      return this.weatherData ? this.weatherData.wind_deg : null;
+      return this.currentWeather ? this.currentWeather.wind_deg : null;
     },
-    description() {
-      return this.weatherData && this.weatherData.weather?.length > 0
-        ? this.weatherData.weather[0].description
+    weatherDescription() {
+      return this.currentWeather && this.currentWeather.weather && this.currentWeather.weather.length > 0
+        ? this.currentWeather.weather[0].description
         : null;
     },
-    icon() {
-      return this.weatherData && this.weatherData.weather?.length > 0
-        ? this.weatherData.weather[0].icon
+    weatherIcon() {
+      return this.currentWeather && this.currentWeather.weather && this.currentWeather.weather.length > 0
+        ? this.currentWeather.weather[0].icon
         : null;
     }
   }
@@ -37,14 +43,17 @@ export default {
 </script>
 
 <template>
-  <div class=" p-6 rounded-lg shadow-md">
-    <!-- Se i dati meteo sono disponibili, visualizzali -->
-    <div v-if="weatherData" class="mt-4">
-      <div v-if="icon" class="flex items-center">
-        <img :src="'https://openweathermap.org/img/wn/' + icon + '@2x.png'" alt="Weather icon" class="w-16 h-16"/>
+  <div class="p-6 rounded-lg">
+    <p>Current Weather</p>
+
+    <!-- if statement che valuta l esistenza dei dati -->
+    <div v-if="currentWeather">
+      <!-- Icona meteo -->
+      <div v-if="weatherIcon" class="flex items-center">
+        <img :src="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'" alt="Weather icon" class="w-16 h-16"/>
         <div class="ml-4">
           <p class="text-3xl font-semibold">{{ temperature }}°C</p>
-          <p class="text-lg">{{ description }}</p>
+          <p class="text-lg">{{ weatherDescription }}</p>
         </div>
       </div>
 
@@ -54,12 +63,12 @@ export default {
         <p><strong>Pressure:</strong> {{ pressure }} hPa</p>
         <p><strong>Wind Speed:</strong> {{ windSpeed }} m/s</p>
         <p><strong>Wind Direction:</strong> {{ windDirection }}°</p>
+        <p><strong>Feels Like:</strong> {{ feelsLike }}°C</p>
       </div>
     </div>
-
     <!-- Se i dati non sono ancora disponibili -->
     <div v-else class="mt-4 text-red-500">
-      <p>Loading weather data...</p>
+      <p>insert city in the field</p>
     </div>
   </div>
 </template>
@@ -70,7 +79,7 @@ export default {
   margin: 0 auto;
 }
 
-p{
-    color: white;
+p {
+  color: white;
 }
 </style>
