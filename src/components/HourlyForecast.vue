@@ -1,10 +1,9 @@
 <script>
-
-
+import { store } from '../store';
 export default {
     data(){
         return{
-            name: 'WeatherForecast',
+            name: 'HourlyForecast',
         }
     }
 }
@@ -12,7 +11,7 @@ export default {
 
 <template>
     <div class="container">
-        <h3>weather-forecast</h3>
+        <h3>HourlyForecast</h3>
     </div>    
 </template>
 

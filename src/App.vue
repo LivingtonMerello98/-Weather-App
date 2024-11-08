@@ -1,18 +1,19 @@
 <script>
-//importare store
-//importare axios
+import CurrentWeather from './components/CurrentWeather.vue';
+import DailyForecast from './components/DailyForecast.vue';
 import HeaderComponent from './components/HeaderComponent.vue';
-import WeatherDisplay from './components/WeatherDisplay.vue';
-import WeatherForecast from './components/WeatherForecast.vue';
-
+import HourlyForecast from './components/HourlyForecast.vue';
+import MinutelyForecast from './components/MinutelyForecast.vue';
 
 
 export default {
 
     components: {
         HeaderComponent,
-        WeatherDisplay,
-        WeatherForecast
+        CurrentWeather,
+        DailyForecast,
+        HourlyForecast,
+        MinutelyForecast
     }
 }
 
@@ -22,17 +23,7 @@ export default {
     <section>
         <HeaderComponent />
         <div>
-            <div>
-                <div>
-                    <!-- weather-display -->
-                    <WeatherDisplay/>
-                </div>
-                <div >
-                    <!-- weather-forecast -->
-                    <WeatherForecast/>
 
-                </div>
-            </div>
         </div>
     </section>
 </template>
