@@ -30,6 +30,7 @@ export default {
                 <div >
                     <!-- weather-forecast -->
                     <WeatherForecast/>
+
                 </div>
             </div>
         </div>

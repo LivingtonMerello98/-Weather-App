@@ -11,10 +11,10 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 //importare l'icona
-import { faCode, faPaintBrush, faRocket, faHandshake, faLaptopCode, faMobileAlt, faCloud, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { } from '@fortawesome/free-solid-svg-icons';
 
 // Aggiungi le icone alla libreria
-library.add(faCode, faPaintBrush, faRocket, faHandshake, faLaptopCode, faMobileAlt, faCloud, faDatabase);
+library.add();
 
 const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon); // Registrazione globale del componente FontAwesome
