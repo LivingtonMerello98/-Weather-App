@@ -2,19 +2,15 @@
 import { store } from '../store';
 
 export default {
-  name: 'CurrentWeather',
   computed: {
-    // Ottieni i dati meteo correnti dallo store
     currentWeather() {
-      return store.getters.currentWeather(); 
+      return store.getters.currentWeather();
     },
-
-    //metodo che ritorna weather.data.current dallo store e valuta l'esistenza di valori
     temperature() {
-      return this.currentWeather ? (this.currentWeather.temp - 273.15).toFixed(2) : null;  // Converte la temperatura da Kelvin a Celsius
+      return this.currentWeather ? (this.currentWeather.temp - 273.15).toFixed(1) : null;
     },
     feelsLike() {
-      return this.currentWeather ? (this.currentWeather.feels_like - 273.15).toFixed(2) : null; // Converte la "feel-like" temperature
+      return this.currentWeather ? (this.currentWeather.feels_like - 273.15).toFixed(1) : null;
     },
     humidity() {
       return this.currentWeather ? this.currentWeather.humidity : null;
@@ -22,64 +18,93 @@ export default {
     pressure() {
       return this.currentWeather ? this.currentWeather.pressure : null;
     },
+    weatherDescription() {
+      return this.currentWeather.weather?.[0]?.description || '';
+    },
+    weatherIcon() {
+      return this.currentWeather.weather?.[0]?.icon || '';
+    },
+    uvi() {
+      return this.currentWeather ? this.currentWeather.uvi : null;
+    },
     windSpeed() {
       return this.currentWeather ? this.currentWeather.wind_speed : null;
     },
-    windDirection() {
-      return this.currentWeather ? this.currentWeather.wind_deg : null;
+    visibility() {
+      return this.currentWeather ? this.currentWeather.visibility : null;
     },
-    weatherDescription() {
-      return this.currentWeather && this.currentWeather.weather && this.currentWeather.weather.length > 0
-        ? this.currentWeather.weather[0].description
-        : null;
-    },
-    weatherIcon() {
-      return this.currentWeather && this.currentWeather.weather && this.currentWeather.weather.length > 0
-        ? this.currentWeather.weather[0].icon
-        : null;
-    }
-  }
-}
+  },
+};
 </script>
 
 <template>
-  <div class="p-6 rounded-lg">
-    <p>Current Weather</p>
+  <div class="flex flex-col items-center text-center space-y-4 px-4">
+    <p v-if="!currentWeather" class="text-red-500">Please enter a valid city name.</p>
 
-    <!-- if statement che valuta l esistenza dei dati -->
-    <div v-if="currentWeather">
-      <!-- Icona meteo -->
-      <div v-if="weatherIcon" class="flex items-center">
-        <img :src="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'" alt="Weather icon" class="w-16 h-16"/>
-        <div class="ml-4">
-          <p class="text-3xl font-semibold">{{ temperature }}°C</p>
-          <p class="text-lg">{{ weatherDescription }}</p>
+    <div v-else>
+      <!-- Contenitore principale con gradiente di sfondo -->
+      <div class="flex flex-col md:flex-row w-full p-6">
+
+        <!-- Componente 1 (Icona meteo, temperatura e descrizione) -->
+        <div class="p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg">
+          <div v-if="weatherIcon" class="flex items-center justify-center mb-4">
+            <img :src="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'" alt="Weather icon" class="w-20 h-20" />
+          </div>
+          <p class="text-6xl font-bold mb-3">{{ temperature }}°C</p>
+          <p class="text-2xl capitalize mb-4">{{ weatherDescription }}</p>
+          <div class="grid grid-cols-2 gap-4 text-sm text-gray-300">
+            <div><strong>Feels Like:</strong> {{ feelsLike }}°C</div>
+            <div><strong>Humidity:</strong> {{ humidity }}%</div>
+            <div><strong>Pressure:</strong> {{ pressure }} hPa</div>
+          </div>
         </div>
-      </div>
 
-      <!-- Dettagli meteo -->
-      <div class="mt-4">
-        <p><strong>Humidity:</strong> {{ humidity }}%</p>
-        <p><strong>Pressure:</strong> {{ pressure }} hPa</p>
-        <p><strong>Wind Speed:</strong> {{ windSpeed }} m/s</p>
-        <p><strong>Wind Direction:</strong> {{ windDirection }}°</p>
-        <p><strong>Feels Like:</strong> {{ feelsLike }}°C</p>
+        <!-- Componente 2 (Barre per UVI, Wind Speed e Visibility) -->
+        <div class="flex flex-col items-center justify-center p-4 md:w-1/2 rounded-lg">
+
+          <!-- Barra per UVI -->
+          <div class="w-full mb-4 text-start">
+            <p class="mb-2 text-xs text-gray-400">UV Index: {{ uvi }}</p>
+            <div class="relative pt-1">
+              <div class="flex mb-2 items-center justify-between">
+                <span class="text-xs">0</span>
+                <span class="text-xs">11+</span>
+              </div>
+              <div class="w-full h-1 rounded-full bg-yellow-300" :style="{ width: `${uvi * 9.09}%` }"></div>
+            </div>
+          </div>
+
+          <!-- Barra per Wind Speed -->
+          <div class="w-full mb-4 text-start">
+            <p class="mb-2 text-xs text-gray-400">Wind Speed: {{ windSpeed }} m/s</p>
+            <div class="relative pt-1">
+              <div class="flex mb-2 items-center justify-between">
+                <span class="text-xs">0</span>
+                <span class="text-xs">30</span>
+              </div>
+              <div class="w-full h-1 rounded-full bg-blue-700" :style="{ width: `${Math.min(windSpeed, 30) * 3.33}%` }"></div>
+            </div>
+          </div>
+
+          <!-- Barra per Visibility -->
+          <div class="w-full mb-4 text-start">
+            <p class="mb-2 text-xs text-gray-400">Visibility: {{ visibility }} meters</p>
+            <div class="relative pt-1">
+              <div class="flex mb-2 items-center justify-between">
+                <span class="text-xs text-gray-400">0</span>
+                <span class="text-xs text-gray-400">10000</span>
+              </div>
+              <div class="w-full h-1 rounded-full bg-emerald-600" :style="{ width: `${visibility / 100}%` }"></div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
-    </div>
-    <!-- Se i dati non sono ancora disponibili -->
-    <div v-else class="mt-4 text-red-500">
-      <p>insert city in the field</p>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-p {
-  color: white;
-}
+<style scoped>
+/* Stili aggiuntivi se necessari */
 </style>

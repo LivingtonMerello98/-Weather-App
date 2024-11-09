@@ -1,53 +1,63 @@
 <script>
+import { store } from './store';
+import SearchBarComponent from './components/SearchBarComponent.vue';
 import CurrentWeather from './components/CurrentWeather.vue';
 import DailyForecast from './components/DailyForecast.vue';
-import HeaderComponent from './components/HeaderComponent.vue';
 import HourlyForecast from './components/HourlyForecast.vue';
-import MinutelyForecast from './components/MinutelyForecast.vue';
 
 export default {
-    components: {
-        HeaderComponent,
-        CurrentWeather,
-        DailyForecast,
-        HourlyForecast,
-        MinutelyForecast
+  components: {
+    SearchBarComponent,
+    CurrentWeather,
+    DailyForecast,
+    HourlyForecast,
+  },
+  computed: {
+    isLoading() {
+      return store.getters.isLoading();
+    },
+    errorMessage() {
+      return store.getters.errorMessage();
     }
-}
+  },
+};
 </script>
 
 <template>
-    <section class="bg-gray-100 min-h-screen">
-      <!-- Header -->
-      <HeaderComponent />
+  <section class="bg-gradient-to-b from-gray-700 to-gray-900 text-gray-100 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <!-- Search Bar -->
+      <SearchBarComponent />
+
+      <!-- Messaggio di errore -->
+      <div v-if="errorMessage" class="text-red-500 text-center">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Indicatore di caricamento -->
+      <div v-if="isLoading" class="flex justify-center">
+        <p>Loading...</p>
+      </div>
 
       <!-- Current Weather -->
-      <div class="flex flex-col p-4 gap-4">
-        <div class="w-full bg-blue-950 rounded-lg">
-            <CurrentWeather />
-        </div>
+      <div v-if="!isLoading && !errorMessage" class="bg-gray-800 rounded-lg shadow-lg p-6">
+        <CurrentWeather />
       </div>
 
       <!-- Hourly Forecast -->
-      <div class="flex flex-col p-4 gap-4">
-        <div class="w-full bg-gray-300 rounded-lg">
-          <HourlyForecast />
-        </div>
+      <div v-if="!isLoading && !errorMessage" class="bg-gray-800 rounded-lg shadow-lg p-6">
+        <HourlyForecast />
       </div>
 
-      <!-- Hourly Forecast -->
-      <div class="flex flex-col p-4 gap-4">
-        <div class="w-full bg-gray-300 rounded-lg">
-          <DailyForecast />
-        </div>
+      <!-- Daily Forecast -->
+      <div v-if="!isLoading && !errorMessage" class="bg-gray-800 rounded-lg shadow-lg p-6">
+        <DailyForecast />
       </div>
-  
-    </section>
-  </template>
-  
+    </div>
+  </section>
+</template>
 
-<style lang="scss" scoped>
 
- 
+<style scoped>
+/* Custom styling can be added here if needed */
 </style>
-

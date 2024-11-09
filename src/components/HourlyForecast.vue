@@ -1,104 +1,67 @@
 <script>
+import { Line } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 import { store } from '../store';
 
+ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
+
 export default {
-  name: 'HourlyWeather',
+  name: 'HourlyForecast',
+  components: {
+    LineChart: Line
+  },
   computed: {
     hourlyWeather() {
-      return store.getters.hourlyWeather(); // Ottieni i dati orari dallo store
+      return store.getters.hourlyWeather();
     },
-    convertToCelsius() {
-      return (kelvin) => (kelvin - 273.15).toFixed(2); // Funzione per convertire da Kelvin a Celsius
-    },
-    formatTime() {
-      return (timestamp) => {
-        const date = new Date(timestamp * 1000); // Converte il timestamp Unix in millisecondi
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Mostra l'ora in formato 12h o 24h
+    chartData() {
+      const labels = this.hourlyWeather.map(hour => new Date(hour.dt * 1000).getHours() + ':00');
+      const temperatures = this.hourlyWeather.map(hour => (hour.temp - 273.15).toFixed(1));
+      return {
+        labels,
+        datasets: [
+          {
+            label: 'Temperature (°C)',
+            data: temperatures,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3,
+          },
+        ],
       };
-    }
-  }
-}
+    },
+    chartOptions() {
+      return {
+        responsive: true,
+        scales: {
+          x: {
+            title: { display: true, text: 'Time' },
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 10, // Limita il numero di tick sull'asse x
+            },
+          },
+          y: { title: { display: true, text: 'Temperature (°C)' } },
+        },
+        plugins: {
+          legend: { display: false },
+        },
+        animation: {
+          duration: 1000, // Durata dell'animazione in millisecondi
+          easing: 'easeInOutCubic', // Tipo di easing (effetto di transizione)
+        },
+      };
+    },
+  },
+};
 </script>
 
 <template>
-  <div class="p-6 rounded-lg">
-    <h3 class="text-xl font-semibold mb-4">Hourly Forecast</h3>
-    <div class="carousel-container">
-      <div v-if="hourlyWeather.length > 0" class="carousel">
-        <div class="carousel-item" v-for="(hour, index) in hourlyWeather" :key="index">
-          <div class="weather-card">
-            <p class="time">{{ formatTime(hour.dt) }}</p>
-            <img :src="'https://openweathermap.org/img/wn/' + hour.weather[0].icon + '@2x.png'" alt="Weather icon" class="weather-icon"/>
-            <p class="description">{{ hour.weather[0].description }}</p>
-            <p class="temp">{{ convertToCelsius(hour.temp) }} °C</p>
-            <p class="feels-like">Feels Like: {{ convertToCelsius(hour.feels_like) }} °C</p>
-            <p class="humidity">Humidity: {{ hour.humidity }}%</p>
-            <p class="pressure">Pressure: {{ hour.pressure }} hPa</p>
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <p>insert a city in the field</p>
-      </div>
-    </div>
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Hourly Forecast</h3>
+    <p v-if="!hourlyWeather.length" class="text-red-500">Data not available. Please try again later.</p>
+    <line-chart v-else :data="chartData" :options="chartOptions" style="height: 300px;"></line-chart>
   </div>
 </template>
-
-<style scoped>
-.carousel-container {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 10px;
-}
-
-.carousel {
-  display: flex;
-  gap: 10px; /* Distanza tra le card */
-}
-
-.carousel-item {
-  flex: 0 0 auto; /* Impedisce la ridistribuzione e rende la card non ridimensionabile */
-  width: 250px; /* Larghezza fissa della card */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  text-align: center;
-}
-
-.weather-card {
-  padding: 16px;
-}
-
-.weather-icon {
-  width: 50px;
-  height: 50px;
-}
-
-.time {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.description {
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-}
-
-.temp, .feels-like, .humidity, .pressure {
-  font-size: 0.8rem;
-  margin-bottom: 4px;
-}
-
-@media (max-width: 768px) {
-  .carousel {
-    flex-wrap: nowrap;
-  }
-
-  .carousel-item {
-    width: 180px; /* Card più piccole sui dispositivi mobili */
-  }
-}
-</style>
