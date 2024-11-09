@@ -50,6 +50,7 @@ export default {
           <div v-if="weatherIcon" class="flex items-center justify-center mb-4">
             <img :src="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'" alt="Weather icon" class="w-20 h-20" />
           </div>
+          <p><strong>modificato in produzione</strong></p>
           <p class="text-6xl font-bold mb-3">{{ temperature }}°C</p>
           <p class="text-2xl capitalize mb-4">{{ weatherDescription }}</p>
           <div class="grid grid-cols-2 gap-4 text-sm text-gray-300">
