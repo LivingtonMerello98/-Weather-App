@@ -53,9 +53,9 @@ export default {
           <p class="text-6xl font-bold mb-3">{{ temperature }}°C</p>
           <p class="text-2xl capitalize mb-4">{{ weatherDescription }}</p>
           <div class="grid grid-cols-2 gap-4 text-sm text-gray-300">
-            <div><strong>Feels Like:</strong> {{ feelsLike }}°C</div>
-            <div><strong>Humidity:</strong> {{ humidity }}%</div>
-            <div><strong>Pressure:</strong> {{ pressure }} hPa</div>
+            <div><strong class="text-gray-400">Feels Like:</strong> {{ feelsLike }}°C</div>
+            <div><strong class="text-gray-400">Humidity:</strong> {{ humidity }}%</div>
+            <div><strong class="text-gray-400">Pressure:</strong> {{ pressure }} hPa</div>
           </div>
         </div>
 
