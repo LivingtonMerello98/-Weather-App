@@ -49,18 +49,29 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col items-center mb-6 space-y-2">
+  <div class="flex items-center justify-between mb-6 space-y-2">
     <input
       v-model="cityName"
-      class="w-full max-w-md px-4 py-2 text-sm text-white rounded-lg border border-gray-600 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full max-w-md px-4 py-2 text-sm text-white rounded-lg border border-gray-600 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1"
       @keyup.enter="fetchWeather"
       placeholder="Enter city name"
     />
-    <button
-      @click="fetchWeatherByCurrentLocation"
-      class="w-full max-w-md px-4 py-2 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded-lg"
-    >
-      Use Current Location
-    </button>
+    <div class="flex justify-end mb-2">
+      <!-- Bottone con icona geolocalizzazione -->
+      <button
+        @click="fetchWeatherByCurrentLocation"
+        class="px-4 py-2 text-sm text-white bg-grey-900 rounded-lg mx-1 flex items-center"
+      >
+        <font-awesome-icon icon="location-arrow"/> 
+      </button>
+
+      <button
+        @click="toggleMenu"
+        class="px-4 py-2 text-sm text-white rounded-lg flex items-center"
+      >
+        <font-awesome-icon icon="bars" />
+      </button>
+    </div>
   </div>
 </template>
+

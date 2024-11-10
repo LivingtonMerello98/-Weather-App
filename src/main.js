@@ -1,21 +1,22 @@
+// main.js (o main.ts)
+
 import { createApp } from 'vue';
 import './style.scss';
 import App from './App.vue';
 
-// tailwind
+// Tailwind
 import './tailwind.css';
 
-
-// fontawesome
+// FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-//importare l'icona
-import { } from '@fortawesome/free-solid-svg-icons';
+
+import { faLocationArrow, faBars } from '@fortawesome/free-solid-svg-icons';
 
 // Aggiungi le icone alla libreria
-library.add();
+library.add(faLocationArrow, faBars);
 
 const app = createApp(App);
-app.component('font-awesome-icon', FontAwesomeIcon); // Registrazione globale del componente FontAwesome
+app.component('font-awesome-icon', FontAwesomeIcon);
 app.mount('#app');
