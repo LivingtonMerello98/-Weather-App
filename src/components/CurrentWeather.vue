@@ -74,7 +74,7 @@ export default {
 
 <template>
   <div class="flex flex-col items-center text-center space-y-4 px-4">
-    <p v-if="!currentWeather" class="text-red-500">Please enter a valid city name.</p>
+    <p v-if="!currentWeather" class="text-blue-500">Please enter a valid city name.</p>
 
     <div v-else>
       <div class="flex flex-col md:flex-row w-full p-6">

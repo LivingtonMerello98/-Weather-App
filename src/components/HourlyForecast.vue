@@ -76,7 +76,7 @@ export default {
 <template>
   <div>
     <h3 class="text-m font-semibold mb-4">Hourly Forecast</h3>
-    <div v-if="!hourlyWeather.length" class="text-red-500">Data not available. Please try again later.</div>
+    <div v-if="!hourlyWeather.length" class="text-blue-500">Hourly Forecast not available.</div>
     <line-chart v-else :data="chartData" :options="chartOptions" style="height: 300px;"></line-chart>
   </div>
 </template>

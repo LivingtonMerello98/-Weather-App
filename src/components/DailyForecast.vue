@@ -19,7 +19,7 @@ export default {
 <template>
   <div>
     <h3 class="text-m font-semibold mb-4">10 Day Forecast</h3>
-    <p v-if="!dailyWeather.length" class="text-red-500">Data not available. Please try again later.</p>
+    <p v-if="!dailyWeather.length" class="text-blue-500">Daily Forecast not available.</p>
 
     <div v-else class="flex gap-2 overflow-x-auto">
 

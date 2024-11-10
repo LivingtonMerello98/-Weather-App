@@ -73,5 +73,5 @@ export default {
 
 
 <style scoped>
-/* Custom styling can be added here if needed */
+
 </style>
