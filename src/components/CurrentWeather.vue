@@ -2,7 +2,15 @@
 import { store } from '../store';
 
 export default {
+  data() {
+    return {
+      dataLoaded: false, // Variabile per controllare il caricamento dei dati
+    };
+  },
   computed: {
+    currentCity() {
+      return store.getters.cityName();
+    },
     currentWeather() {
       return store.getters.currentWeather();
     },
@@ -33,6 +41,33 @@ export default {
     visibility() {
       return this.currentWeather ? this.currentWeather.visibility : null;
     },
+    uviWidth() {
+      return this.dataLoaded ? `${this.uvi * 9.09}%` : '0%';
+    },
+    windSpeedWidth() {
+      return this.dataLoaded ? `${Math.min(this.windSpeed, 30) * 3.33}%` : '0%';
+    },
+    visibilityWidth() {
+      return this.dataLoaded ? `${this.visibility / 100}%` : '0%';
+    },
+  },
+  watch: {
+    currentWeather(newValue) {
+      if (newValue) {
+        setTimeout(() => {
+          this.dataLoaded = true;
+        }, 100);
+      }
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.currentWeather) {
+        setTimeout(() => {
+          this.dataLoaded = true;
+        }, 100); // Avvio dell'animazione con 100ms di ritardo
+      }
+    });
   },
 };
 </script>
@@ -42,35 +77,35 @@ export default {
     <p v-if="!currentWeather" class="text-red-500">Please enter a valid city name.</p>
 
     <div v-else>
-      <!-- Contenitore principale con gradiente di sfondo -->
       <div class="flex flex-col md:flex-row w-full p-6">
-
-        <!-- Componente 1 (Icona meteo, temperatura e descrizione) -->
+        
         <div class="p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg">
+          <div class="flex items-center justify-center space-x-4 mb-3">
+            <h3 class="city-title">{{ currentCity }}</h3>
+          </div>
           <div v-if="weatherIcon" class="flex items-center justify-center mb-4">
             <img :src="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'" alt="Weather icon" class="w-20 h-20" />
           </div>
           <p class="text-6xl font-bold mb-3">{{ temperature }}°C</p>
-          <p class="text-2xl capitalize mb-4">{{ weatherDescription }}</p>
+          <p class="text-2xl capitalize mb-6">{{ weatherDescription }}</p>
           <div class="grid grid-cols-2 gap-4 text-sm text-gray-300">
-            <div><strong class="text-gray-400">Feels Like:</strong> {{ feelsLike }}°C</div>
-            <div><strong class="text-gray-400">Humidity:</strong> {{ humidity }}%</div>
-            <div><strong class="text-gray-400">Pressure:</strong> {{ pressure }} hPa</div>
+            <div class="text-xs text-gray-400"><strong>Feels Like:</strong> {{ feelsLike }}°C</div>
+            <div class="text-xs text-gray-400"><strong>Humidity:</strong> {{ humidity }}%</div>
+            <div class="text-xs text-gray-400"><strong>Pressure:</strong> {{ pressure }} hPa</div>
           </div>
         </div>
 
-        <!-- Componente 2 (Barre per UVI, Wind Speed e Visibility) -->
-        <div class="flex flex-col items-center justify-center p-4 md:w-1/2 rounded-lg">
-
+        <div class="flex flex-col items-center justify-end p-4 md:w-1/2 rounded-lg">
+          
           <!-- Barra per UVI -->
           <div class="w-full mb-4 text-start">
             <p class="mb-2 text-xs text-gray-400">UV Index: {{ uvi }}</p>
             <div class="relative pt-1">
               <div class="flex mb-2 items-center justify-between">
-                <span class="text-xs">0</span>
-                <span class="text-xs">11+</span>
+                <span class="text-xs text-gray-400">0</span>
+                <span class="text-xs text-gray-400">11+</span>
               </div>
-              <div class="w-full h-1 rounded-full bg-yellow-300" :style="{ width: `${uvi * 9.09}%` }"></div>
+              <div class="w-full h-1 rounded-full bg-yellow-300 loading-bar" :class="{ 'loading-bar-active': dataLoaded }" :style="{ width: uviWidth }"></div>
             </div>
           </div>
 
@@ -79,10 +114,10 @@ export default {
             <p class="mb-2 text-xs text-gray-400">Wind Speed: {{ windSpeed }} m/s</p>
             <div class="relative pt-1">
               <div class="flex mb-2 items-center justify-between">
-                <span class="text-xs">0</span>
-                <span class="text-xs">30</span>
+                <span class="text-xs text-gray-400">0</span>
+                <span class="text-xs text-gray-400">30</span>
               </div>
-              <div class="w-full h-1 rounded-full bg-blue-700" :style="{ width: `${Math.min(windSpeed, 30) * 3.33}%` }"></div>
+              <div class="w-full h-1 rounded-full bg-blue-700 loading-bar" :class="{ 'loading-bar-active': dataLoaded }" :style="{ width: windSpeedWidth }"></div>
             </div>
           </div>
 
@@ -94,7 +129,7 @@ export default {
                 <span class="text-xs text-gray-400">0</span>
                 <span class="text-xs text-gray-400">10000</span>
               </div>
-              <div class="w-full h-1 rounded-full bg-emerald-600" :style="{ width: `${visibility / 100}%` }"></div>
+              <div class="w-full h-1 rounded-full bg-emerald-600 loading-bar" :class="{ 'loading-bar-active': dataLoaded }" :style="{ width: visibilityWidth }"></div>
             </div>
           </div>
 
@@ -105,6 +140,19 @@ export default {
   </div>
 </template>
 
-<style scoped>
-/* Stili aggiuntivi se necessari */
+<style lang="scss" scoped>
+.city-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+.loading-bar {
+  width: 0; /* Impostazione iniziale per l'animazione */
+}
+
+.loading-bar-active {
+  transition: width 1s ease-in-out; /* Animazione della larghezza */
+}
 </style>

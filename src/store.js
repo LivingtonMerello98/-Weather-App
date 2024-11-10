@@ -5,25 +5,22 @@ export const store = reactive({
     apiUrl: import.meta.env.VITE_API_URL,
     geocodeUrl: `${import.meta.env.VITE_GEOCODE_URL}?appid=${import.meta.env.VITE_API_KEY}`,
 
-
     // Stato
     state: {
         weatherData: null,
         loading: false,
         error: null,
+        cityName: localStorage.getItem('cityName') || '', // Recupera la città dal localStorage
     },
 
     // Getters
     getters: {
-        // Getter per il meteo orario
         hourlyWeather() {
             return store.state.weatherData?.hourly || [];
         },
-        // Getter per il meteo corrente
         currentWeather() {
             return store.state.weatherData?.current || null;
         },
-        // Getter per il meteo giornaliero
         dailyWeather() {
             return store.state.weatherData?.daily || [];
         },
@@ -32,6 +29,9 @@ export const store = reactive({
         },
         errorMessage() {
             return store.state.error;
+        },
+        cityName() {
+            return store.state.cityName;
         }
     },
 
@@ -42,6 +42,9 @@ export const store = reactive({
         },
         SET_LOADING(isLoading) {
             store.state.loading = isLoading;
+        },
+        SET_CITY_NAME(cityName) {
+            store.state.cityName = cityName;
         },
         SET_ERROR(error) {
             store.state.error = error;
@@ -67,7 +70,6 @@ export const store = reactive({
                 // Chiamata API per ottenere i dati meteo
                 const weatherResponse = await axios.get(weatherUrl);
                 store.mutations.SET_WEATHER_DATA(weatherResponse.data);
-
                 console.log("Dati meteo ricevuti:", weatherResponse.data);
 
             } catch (error) {
@@ -76,5 +78,15 @@ export const store = reactive({
                 store.mutations.SET_LOADING(false);
             }
         },
+
+        // Funzione per caricare i dati meteo per la città salvata nel localStorage al caricamento
+        initializeWeather() {
+            const cityName = localStorage.getItem('cityName');
+            if (cityName) {
+                store.actions.fetchWeatherData(cityName);
+            }
+        }
     },
 });
+
+store.actions.initializeWeather();

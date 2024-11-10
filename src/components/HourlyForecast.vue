@@ -17,17 +17,34 @@ export default {
     chartData() {
       const labels = this.hourlyWeather.map(hour => new Date(hour.dt * 1000).getHours() + ':00');
       const temperatures = this.hourlyWeather.map(hour => (hour.temp - 273.15).toFixed(1));
+      const minTemp = Math.min(...temperatures);
+      const maxTemp = Math.max(...temperatures);
+      
       return {
         labels,
         datasets: [
           {
             label: 'Temperature (°C)',
             data: temperatures,
-            borderColor: '#3b82f6',
+            borderColor: (context) => {
+              const chart = context.chart;
+              const { ctx, chartArea } = chart;
+              if (!chartArea) return;
+
+              // Create gradient
+              const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+
+              // Define gradient stops based on min/max temperatures
+              gradient.addColorStop(0, '#3b82f6'); // Colore blu per temperatura minima
+              gradient.addColorStop(0.5, '#38bdf8'); // Colore intermedio (blu chiaro)
+              gradient.addColorStop(1, '#fbbf24'); // Colore giallo per temperatura massima
+
+              return gradient;
+            },
             backgroundColor: 'rgba(59, 130, 246, 0.2)',
             fill: true,
             tension: 0.4,
-            pointRadius: 3,
+            pointRadius: 2,
           },
         ],
       };
@@ -40,7 +57,7 @@ export default {
             title: { display: true, text: 'Time' },
             ticks: {
               autoSkip: true,
-              maxTicksLimit: 10, // Limita il numero di tick sull'asse x
+              maxTicksLimit: 10,
             },
           },
           y: { title: { display: true, text: 'Temperature (°C)' } },
@@ -49,8 +66,8 @@ export default {
           legend: { display: false },
         },
         animation: {
-          duration: 1000, // Durata dell'animazione in millisecondi
-          easing: 'easeInOutCubic', // Tipo di easing (effetto di transizione)
+          duration: 1000,
+          easing: 'easeInOutCubic',
         },
       };
     },
@@ -61,7 +78,7 @@ export default {
 <template>
   <div>
     <h3 class="text-m font-semibold mb-4">Hourly Forecast</h3>
-    <p v-if="!hourlyWeather.length" class="text-red-500">Data not available. Please try again later.</p>
+    <div v-if="!hourlyWeather.length" class="text-red-500">Data not available. Please try again later.</div>
     <line-chart v-else :data="chartData" :options="chartOptions" style="height: 300px;"></line-chart>
   </div>
 </template>
