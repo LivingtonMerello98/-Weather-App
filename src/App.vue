@@ -4,9 +4,16 @@ import SearchBarComponent from './components/SearchBarComponent.vue';
 import CurrentWeather from './components/CurrentWeather.vue';
 import DailyForecast from './components/DailyForecast.vue';
 import HourlyForecast from './components/HourlyForecast.vue';
+import SplashPage from './components/SplashPage.vue';
 
 export default {
+  data() {
+    return {
+      showSplash: true, // La splash page è visibile inizialmente
+    };
+  },
   components: {
+    SplashPage,
     SearchBarComponent,
     CurrentWeather,
     DailyForecast,
@@ -20,11 +27,18 @@ export default {
       return store.getters.errorMessage();
     }
   },
+  mounted() {
+
+    setTimeout(() => {
+      this.showSplash = false;
+    }, 1000); 
+  },
 };
 </script>
 
 <template>
   <section class="bg-gradient-to-b from-gray-700 to-gray-900 text-gray-100 min-h-screen p-8">
+    <SplashPage/>
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- Search Bar -->
       <SearchBarComponent />

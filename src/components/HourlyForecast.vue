@@ -31,10 +31,8 @@ export default {
               const { ctx, chartArea } = chart;
               if (!chartArea) return;
 
-              // Create gradient
               const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
 
-              // Define gradient stops based on min/max temperatures
               gradient.addColorStop(0, '#3b82f6'); // Colore blu per temperatura minima
               gradient.addColorStop(0.5, '#38bdf8'); // Colore intermedio (blu chiaro)
               gradient.addColorStop(1, '#fbbf24'); // Colore giallo per temperatura massima
@@ -44,7 +42,7 @@ export default {
             backgroundColor: 'rgba(59, 130, 246, 0.2)',
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 0,
           },
         ],
       };
