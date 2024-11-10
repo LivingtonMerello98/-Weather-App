@@ -1,5 +1,3 @@
-// store.js
-
 import { reactive } from 'vue';
 import axios from 'axios';
 
@@ -7,15 +5,13 @@ export const store = reactive({
     apiUrl: import.meta.env.VITE_API_URL,
     geocodeUrl: `${import.meta.env.VITE_GEOCODE_URL}?appid=${import.meta.env.VITE_API_KEY}`,
 
-    // Stato
     state: {
         weatherData: null,
         loading: false,
         error: null,
-        cityName: localStorage.getItem('cityName') || '',
+        cityName: localStorage.getItem('cityName') || '', // Recupera la città dal localStorage
     },
 
-    // Getters
     getters: {
         hourlyWeather() {
             return store.state.weatherData?.hourly || [];
@@ -37,7 +33,6 @@ export const store = reactive({
         }
     },
 
-    // Mutations
     mutations: {
         SET_WEATHER_DATA(data) {
             store.state.weatherData = data;
@@ -53,7 +48,6 @@ export const store = reactive({
         },
     },
 
-    // Actions
     actions: {
         async fetchWeatherData(cityName) {
             store.mutations.SET_LOADING(true);
@@ -62,7 +56,7 @@ export const store = reactive({
             try {
                 const geoResponse = await axios.get(`${store.geocodeUrl}&q=${cityName}&limit=1`);
                 if (!geoResponse.data.length) {
-                    throw new Error('City not found');
+                    throw new Error('insert your position');
                 }
 
                 const { lat, lon } = geoResponse.data[0];
@@ -70,6 +64,7 @@ export const store = reactive({
 
                 const weatherResponse = await axios.get(weatherUrl);
                 store.mutations.SET_WEATHER_DATA(weatherResponse.data);
+
                 console.log("Dati meteo ricevuti:", weatherResponse.data);
 
             } catch (error) {
@@ -88,7 +83,8 @@ export const store = reactive({
                 const weatherResponse = await axios.get(weatherUrl);
 
                 store.mutations.SET_WEATHER_DATA(weatherResponse.data);
-                store.mutations.SET_CITY_NAME(`(${lat.toFixed(2)}, ${lon.toFixed(2)})`); // Imposta un nome temporaneo
+                // Imposta 'Your location' nel cityName
+                store.mutations.SET_CITY_NAME('Your position');
 
             } catch (error) {
                 store.mutations.SET_ERROR(error.message || 'Failed to fetch weather data');
@@ -100,10 +96,11 @@ export const store = reactive({
         initializeWeather() {
             const cityName = localStorage.getItem('cityName');
             if (cityName) {
-                store.actions.fetchWeatherData(cityName);
+                store.actions.fetchWeatherData(cityName); // Usa cityName dal localStorage
             }
         }
     },
 });
 
+// Inizializza i dati meteo quando l'app parte
 store.actions.initializeWeather();

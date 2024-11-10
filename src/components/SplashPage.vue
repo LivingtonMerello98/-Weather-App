@@ -48,7 +48,7 @@ export default {
   font-size: 2rem;
   font-weight: bold;
   color: white;
-  z-index: 9999; /* Assicurati che la splash page si sovrapponga agli altri contenuti */
+  z-index: 9999; 
   text-align: center;
 }
 
