@@ -22,7 +22,7 @@ export default {
     <p v-if="!dailyWeather.length" class="text-blue-500">Daily Forecast not available.</p>
 
     <div v-else class="forecast-container">
-      <!-- Previsioni giornaliere -->
+      
       <div v-for="(day, index) in dailyWeather" :key="index" class="bg-gray-900 text-center rounded-lg p-6" style="min-width: 150px;">
         <p class="font-semibold text-xs">{{ formatDate(day.dt) }}</p>
         <img :src="'https://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png'" alt="Weather icon" class="mx-auto my-2 w-15 h-15" />
