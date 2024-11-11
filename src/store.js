@@ -10,8 +10,8 @@ export const store = reactive({
         loading: false,
         error: null,
         cityName: localStorage.getItem('cityName') || '', // Recupera la città dal localStorage
-        isMenuVisible: false,
-        favourites: JSON.parse(localStorage.getItem('favourites')) || [],
+        isMenuVisible: false, // Stato per la visibilità del menu
+        favourites: JSON.parse(localStorage.getItem('favourites')) || [], // Carica i preferiti da localStorage
     },
 
     getters: {
@@ -47,7 +47,7 @@ export const store = reactive({
         },
         SET_CITY_NAME(cityName) {
             store.state.cityName = cityName;
-            localStorage.setItem('cityName', cityName);
+            localStorage.setItem('cityName', cityName); // Salva la città nel localStorage
         },
         SET_ERROR(error) {
             store.state.error = error;
@@ -124,27 +124,8 @@ export const store = reactive({
             if (cityName) {
                 store.actions.fetchWeatherData(cityName);
             }
-        },
-
-        // Aggiunta della logica per la condivisione
-        shareWeather() {
-            const cityName = store.state.cityName;
-            const weatherLink = `https://www.tuosito.com/weather/${cityName}`;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: `Meteo di ${cityName}`,
-                    url: weatherLink
-                })
-                    .then(() => console.log('Condivisione riuscita!'))
-                    .catch((error) => console.error('Errore nella condivisione: ', error));
-            } else {
-                // Fallback per la condivisione tramite WhatsApp
-                const shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(weatherLink)}`;
-                window.open(shareLink, '_blank');
-            }
         }
-    }
+    },
 });
 
 store.actions.initializeWeather();

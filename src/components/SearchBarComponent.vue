@@ -1,3 +1,4 @@
+<!-- searchBar -->
 <script>
 import { store } from '../store';
 
@@ -41,9 +42,6 @@ export default {
     },
     toggleMenu() {
       store.mutations.TOGGLE_MENU(); // Attiva/disattiva il menu
-    },
-    shareWeather() {
-      store.actions.shareWeather(); // Invoca l'azione nello store
     }
   }
 };
@@ -59,14 +57,6 @@ export default {
     />
 
     <div class="flex justify-end mb-2">
-      <!-- Bottone di condivisione -->
-      <button
-        @click="shareWeather"
-        class="px-4 py-2 text-sm text-white bg-grey-900 rounded-lg mx-1 flex items-center"
-      >
-        Share
-      </button>
-      
       <button
         @click="fetchWeatherByCurrentLocation"
         class="px-4 py-2 text-sm text-white bg-grey-900 rounded-lg mx-1 flex items-center"
@@ -83,7 +73,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Puoi aggiungere degli stili personalizzati per il bottone */
-</style>
