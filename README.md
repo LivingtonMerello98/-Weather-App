@@ -1,58 +1,54 @@
-# Guida per Configurare il Progetto
+Skysense
 
-Benvenuti! Seguite questi semplici passaggi per configurare e avviare il progetto basato sul template. Questa guida è pensata per aiutarvi a iniziare facilmente.
+L'applicativo ha come obiettivo quello di poter fornire informazioni relative al tempo climatico tramite dopo un input, con il nome della città da parte dell'utente.
+lo sviluppo dell'applicativo è suddivisio in fasi, la prima fase prevede delle feature base.
+Fase 1: 
 
-## 1. Creare una Nuova Repository
+    •Temperatura attuale
+    •Probabilità di pioggia
+    •Condizioni generali (sole, nuvoloso, piovoso, ecc.)
+    •Velocità e direzione del vento
+    •Umidità e copertura nuvolosa
 
-### Accedere al Template
+[x]ottimizzazione dell'area di sviluppo
 
-Vai alla pagina del template su GitHub: https://github.com/LivingtonMerello98/vue-template
-### Creare una Nuova Repository
+    [x]rimozione dei file inutili
+    [x]comprensione del weirframe e dell'interazione dei componenti
 
-1. Clicca sul pulsante **"Use this template"**.
-2. Inserisci un nome per la nuova repository.
-3. Clicca su **"Create repository from template"**.
+[]creazione dei componenti base utili:
 
-## 2. Clonare la Nuova Repository
+    [x] search-bar -> input con il parametro di ricerca (es: "New York")
+    [x]Current Weather -> - componente che mostrerà le condizioni  **Attuali** del meteo.
+                         - store.js reactive : prende i dati dallo store tramite una funzione getter.
+                         - Contenuto:
+                            • Mostra la temperatura attuale.
+                            • Descrizione del tempo (es. pioggia, sole).
+                            • Umidità e altre variabili (visibilità, pressione, ecc.).
 
-Ora che hai creato una nuova repository, devi clonarla sul tuo computer.
+    [x]Hourly Forecast -> - componente che mostrerà le condizioni  **Orarie** del meteo.
+                          - store.js reactive : prende i dati dallo store tramite una funzione getter.
+                          Contenuto:
+                            • Una lista delle previsioni con le temperature e le condizioni meteo orarie.
+                            • Icone per il meteo (sole, nuvoloso, pioggia, ecc.).
+                            • Visualizzazione di un diagramma con chart.js.
 
-### Aprire VSCode
-
-1. Apri Visual Studio Code.
-2. Seleziona la voce **'Clone Git Repository'**.
-3. Seleziona la cartella in cui vuoi salvare la repository.
-
-### Eseguire il comando di installazione
-
-Apri il terminale integrato di VSCode e esegui il comando:
-
-Esegui il comando per installare tutte le dipendenze necessarie:
-
-Copia codice
-
-npm install
-
-Questo comando installerà tutto ciò di cui il progetto ha bisogno per funzionare.
+    [x]Daily Forecast -> - componente che mostrerà le condizioni  **Giornaliere** del meteo.
+                          - store.js reactive : prende i dati dallo store tramite una funzione getter.
+                          Contenuto:
+                            • Nome del Giorno.
+                            • Icone per il meteo (sole, nuvoloso, pioggia, ecc.).
+                            • Temperature Celsius.
+                            • Formato slide scorrevoli su tablet e mobile
 
 
-3. Avviare il Server di Sviluppo
-Ora sei pronto per vedere il progetto in azione!
 
-Avviare il Server
-Esegui il comando:
+    [x]LoadingSpinner -> • Mostra un'animazione di caricamento mentre i dati meteo vengono recuperati dall'API.
+                        • Contenuto: Icona o animazione di caricamento.
+                        • Utilizzo: Usato nei componenti WeatherDisplay.vue e WeatherForecast.vue quando l'app sta caricando i dati.
 
-npm run dev
+    []xErrorMessage -> • Ruolo: Visualizza un messaggio di errore in caso di problemi con l'API o il caricamento dei dati.
+                      • Contenuto: Messaggio di errore personalizzato e pulsante di retry.
 
-Questo avvierà un server di sviluppo e il progetto sarà disponibile su http://localhost:5173. Apri questo URL nel tuo browser per vedere il progetto.
+•task da svolgere:
 
-Dipendenze del Progetto
-Il progetto utilizza i seguenti pacchetti:
-
-sass: Permette di usare SCSS per gli stili.
-bootstrap: Framework CSS per un design reattivo e moderno.
-axios: Libreria per fare richieste HTTP.
-vue-router: Gestisce la navigazione tra le pagine in Vue.js.
-@fortawesome/fontawesome-free: Icone FontAwesome per aggiungere icone al progetto.
-@fortawesome/vue-fontawesome: Integrazione di FontAwesome con Vue.js.
-Tutti questi pacchetti sono già inclusi e configurati nel progetto. L'installazione con npm install li aggiungerà al tuo ambiente di sviluppo.
+[] nome della città nel componente currentWeather

@@ -14,8 +14,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import { faLocationArrow, faBars, faPlus, faTrash, faCheck, faStar, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
-
-// Aggiungi le icone alla libreria
 library.add(faLocationArrow, faBars, faPlus, faTrash, faCheck, faStar, faMapMarkerAlt);
 
 const app = createApp(App);
