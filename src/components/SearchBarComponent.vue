@@ -61,7 +61,7 @@ export default {
         @click="fetchWeatherByCurrentLocation"
         class="px-4 py-2 text-sm text-white bg-grey-900 rounded-lg mx-1 flex items-center"
       >
-        <font-awesome-icon icon="location-arrow"/> 
+        <font-awesome-icon :icon="['fas', 'map-marker-alt']" class="text-white"/> 
       </button>
 
       <button
