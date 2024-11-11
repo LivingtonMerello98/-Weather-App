@@ -57,8 +57,16 @@ export default {
               autoSkip: true,
               maxTicksLimit: 10,
             },
+            grid: {
+              color: 'rgba(242, 242, 242, 0.1) ', 
+            },
           },
-          y: { title: { display: true, text: 'Temperature (°C)' } },
+          y: {
+            title: { display: true, text: 'Temperature (°C)' },
+            grid: {
+              color: 'rgba(242, 242, 242, 0.1) ', 
+            },
+          },
         },
         plugins: {
           legend: { display: false },
