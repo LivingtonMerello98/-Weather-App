@@ -10,6 +10,7 @@ export const store = reactive({
         loading: false,
         error: null,
         cityName: localStorage.getItem('cityName') || '', // Recupera la città dal localStorage
+        isMenuVisible: false, // Stato per la visibilità del menu
     },
 
     getters: {
@@ -45,6 +46,13 @@ export const store = reactive({
         },
         SET_ERROR(error) {
             store.state.error = error;
+        },
+        TOGGLE_MENU() {
+            store.state.isMenuVisible = !store.state.isMenuVisible;
+            console.log("Visibilità del menù:", store.state.isMenuVisible); //debug del testo menu
+        },
+        CLOSE_MENU() {
+            store.state.isMenuVisible = false;
         },
     },
 

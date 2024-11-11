@@ -5,6 +5,7 @@ import CurrentWeather from './components/CurrentWeather.vue';
 import DailyForecast from './components/DailyForecast.vue';
 import HourlyForecast from './components/HourlyForecast.vue';
 import SplashPage from './components/SplashPage.vue';
+import SideMenu from './components/SideMenu.vue'; // Importa SideMenu
 
 export default {
   data() {
@@ -18,6 +19,7 @@ export default {
     CurrentWeather,
     DailyForecast,
     HourlyForecast,
+    SideMenu, // Aggiungi SideMenu ai componenti
   },
   computed: {
     isLoading() {
@@ -28,7 +30,6 @@ export default {
     }
   },
   mounted() {
-
     setTimeout(() => {
       this.showSplash = false;
     }, 1000); 
@@ -38,7 +39,9 @@ export default {
 
 <template>
   <section class="bg-gradient-to-b from-gray-700 to-gray-900 text-gray-100 min-h-screen p-8">
-    <SplashPage/>
+    <!-- Splash Page -->
+    <SplashPage v-if="showSplash" />
+
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- Search Bar -->
       <SearchBarComponent />
@@ -68,10 +71,8 @@ export default {
         <DailyForecast />
       </div>
     </div>
+
+    <!-- Side Menu (visibile in base allo store) -->
+    <SideMenu />
   </section>
 </template>
-
-
-<style scoped>
-
-</style>
