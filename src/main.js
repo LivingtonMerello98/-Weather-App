@@ -12,10 +12,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 
-import { faLocationArrow, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faLocationArrow, faBars, faPlus, faTrash, faCheck, faStar } from '@fortawesome/free-solid-svg-icons';
+
 
 // Aggiungi le icone alla libreria
-library.add(faLocationArrow, faBars);
+library.add(faLocationArrow, faBars, faPlus, faTrash, faCheck, faStar);
 
 const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon);

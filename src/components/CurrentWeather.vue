@@ -50,6 +50,10 @@ export default {
     visibilityWidth() {
       return this.dataLoaded ? `${this.visibility / 100}%` : '0%';
     },
+    isCityInFavourites() {
+      // Controlla se la città è già nei preferiti
+      return store.state.favourites.includes(this.currentCity);
+    }
   },
   watch: {
     currentWeather(newValue) {
@@ -59,6 +63,19 @@ export default {
         }, 100);
       }
     },
+  },
+  methods: {
+    addToFavourites() {
+      // Aggiungi la città ai preferiti solo se non è già presente
+      if (!this.isCityInFavourites) {
+        store.mutations.ADD_FAVOURITE(this.currentCity);
+      }
+    },
+    selectCity(city) {
+    store.mutations.SET_CITY_NAME(city);
+    store.actions.fetchWeatherData(city);
+    store.mutations.CLOSE_MENU();
+  },
   },
   mounted() {
     this.$nextTick(() => {
@@ -79,9 +96,22 @@ export default {
     <div v-else>
       <div class="flex flex-col md:flex-row w-full p-6">
         
-        <div class="p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg">
-          <div class="flex items-center justify-center space-x-4 mb-3">
+        <div class="p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg relative">
+          <div class="flex items-center justify-center space-x-4 mb-3 relative">
             <h3 class="city-title">{{ currentCity }}</h3>
+            <div class="absolute left-0 top-0">
+              <!-- Pulsante per aggiungere ai preferiti -->
+              <button 
+                v-if="!isCityInFavourites" 
+                @click="addToFavourites(currentCity)" 
+                class="text-white px-3 py-2 rounded hover:bg-gray-600 text-sm"
+              >
+              <font-awesome-icon icon="plus" class="text-blue-500"/> 
+              </button>
+              <span v-if="isCityInFavourites">
+                <font-awesome-icon icon="star" class=" text-yellow-500 p-2 mt-1 rounded text-sm" />
+              </span>
+            </div>
           </div>
           <div v-if="weatherIcon" class="flex items-center justify-center mb-4">
             <img :src="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'" alt="Weather icon" class="w-20 h-20" />
@@ -96,7 +126,19 @@ export default {
         </div>
 
         <div class="flex flex-col items-center justify-end p-4 md:w-1/2 rounded-lg">
-          
+
+          <!-- Barra per Visibility -->
+          <div class="w-full mb-4 text-start">
+            <p class="mb-2 text-xs text-gray-400">Visibility: {{ visibility }} meters</p>
+            <div class="relative pt-1">
+              <div class="flex mb-2 items-center justify-between">
+                <span class="text-xs text-gray-400">0</span>
+                <span class="text-xs text-gray-400">10000</span>
+              </div>
+              <div class="w-full h-1 rounded-full bg-emerald-600 loading-bar" :class="{ 'loading-bar-active': dataLoaded }" :style="{ width: visibilityWidth }"></div>
+            </div>
+          </div>
+
           <!-- Barra per UVI -->
           <div class="w-full mb-4 text-start">
             <p class="mb-2 text-xs text-gray-400">UV Index: {{ uvi }}</p>
@@ -121,18 +163,6 @@ export default {
             </div>
           </div>
 
-          <!-- Barra per Visibility -->
-          <div class="w-full mb-4 text-start">
-            <p class="mb-2 text-xs text-gray-400">Visibility: {{ visibility }} meters</p>
-            <div class="relative pt-1">
-              <div class="flex mb-2 items-center justify-between">
-                <span class="text-xs text-gray-400">0</span>
-                <span class="text-xs text-gray-400">10000</span>
-              </div>
-              <div class="w-full h-1 rounded-full bg-emerald-600 loading-bar" :class="{ 'loading-bar-active': dataLoaded }" :style="{ width: visibilityWidth }"></div>
-            </div>
-          </div>
-
         </div>
 
       </div>
@@ -154,5 +184,11 @@ export default {
 
 .loading-bar-active {
   transition: width 1s ease-in-out; /* Animazione della larghezza */
+}
+
+.absolute {
+  position: absolute;
+  left: -50px;
+  top: 0;
 }
 </style>
