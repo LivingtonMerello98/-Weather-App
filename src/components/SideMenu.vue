@@ -50,7 +50,7 @@ export default {
     class="fixed top-0 right-0 w-64 h-full bg-gray-800 text-white p-4 shadow-lg transform transition-transform duration-300"
     :class="{'translate-x-0': isVisible, 'translate-x-full': !isVisible}"
   >
-    <h2 class="text-xl font-semibold mb-4">Favourites</h2>
+    <h2 class="text-sm font-semibold mb-4 text-grey-400">Favourites</h2>
     
     <!-- Lista dei preferiti -->
     <ul>
@@ -62,9 +62,8 @@ export default {
       >
         <div class="flex justify-between mb-3">
             <p class="capitalize text-sm">{{ city }}</p>
-            <font-awesome-icon icon="trash" class="text-red-500 text-sm hover:text-red-700" @click.stop="removeFromFavourites(city)"  />
+            <font-awesome-icon icon="trash" class="text-red-500 text-sm hover:text-red-700 px-3" @click.stop="removeFromFavourites(city)"  />
         </div>
-        <hr>
       </li>
     </ul>
 
@@ -72,7 +71,7 @@ export default {
     <div v-if="currentCity && !favourites.includes(currentCity)" class="mt-4">
       <button 
         @click="addToFavourites" 
-        class="w-full py-2 bg-blue-800 text-white rounded-md hover:bg-blue-600 text-sm capitalize"
+        class="w-full py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 text-sm capitalize"
       >
         + {{ currentCity }} to Favourites
       </button>

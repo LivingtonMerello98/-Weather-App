@@ -1,8 +1,8 @@
-<!-- searchBar -->
 <script>
 import { store } from '../store';
 
 export default {
+  name:'SearchBarComponent',
   data() {
     return {
       cityName: localStorage.getItem('cityName') || '', 

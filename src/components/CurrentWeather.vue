@@ -98,7 +98,13 @@ export default {
         
         <div class="p-4 mb-4 md:mb-0 md:w-1/2 rounded-lg relative">
           <div class="flex items-center justify-center space-x-4 mb-3 relative">
-            <h3 class="city-title">{{ currentCity }}</h3>
+            <h3 class="city-title">
+              <!-- Mostra l'icona solo se currentCity è "Your position" -->
+              <font-awesome-icon v-if="currentCity === 'Your position'" :icon="['fas', 'map-marker-alt']" class="text-red-500 pulse"/>
+              <p v-else>
+                {{ currentCity }}
+              </p>
+            </h3>
             <div class="absolute left-0 top-0">
               <!-- Pulsante per aggiungere ai preferiti -->
               <button 
@@ -191,4 +197,55 @@ export default {
   left: -50px;
   top: 0;
 }
+
+/* CSS per l'effetto pulsante con onde */
+.pulse {
+  position: relative; /* Per posizionare correttamente gli effetti al centro dell'icona */
+  animation: pulse-animation 2s infinite; /* Animazione continua */
+}
+
+.pulse::after {
+  content: ''; /* Creiamo un elemento pseudo dopo l'icona */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px; /* La larghezza iniziale della prima onda */
+  height: 50px; /* L'altezza iniziale della prima onda */
+  background: rgba(255, 0, 0, 0.5); /* Colore rosso con opacità */
+  border-radius: 50%; /* Rendi l'onda rotonda */
+  transform: translate(-50%, -50%); /* Centra l'onda nell'icona */
+  animation: wave-animation 2s infinite; /* Animazione dell'onda */
+  pointer-events: none; /* Assicura che l'onda non interferisca con l'interazione dell'utente */
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5); /* Espandi l'onda */
+    opacity: 0; /* Fai svanire l'onda a metà */
+  }
+  100% {
+    transform: scale(2); /* Espandi ancora di più l'onda */
+    opacity: 1; /* Rendi l'onda visibile di nuovo */
+  }
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5); /* Crescita dell'onda */
+    opacity: 0.5; /* Rendi l'onda un po' trasparente */
+  }
+  100% {
+    transform: scale(2); /* Continua l'espansione dell'onda */
+    opacity: 0; /* Fai scomparire l'onda */
+  }
+}
+
 </style>
