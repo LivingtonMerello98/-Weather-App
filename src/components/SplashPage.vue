@@ -1,25 +1,36 @@
 <script>
+//SplashPage
+
 export default {
+  name: 'SplashPage',
   data() {
     return {
       show: true,  // Variabile per mostrare/nascondere la splash screen
     };
   },
+
   mounted() {
+    
     // Disabilita lo scroll quando la splash screen è visibile
     document.body.style.overflow = 'hidden';
 
     // Mostra la splash page per 2 secondi
     setTimeout(() => {
-      this.show = false; // Nasconde la splash page
+
+      // Nasconde la splash page
+      this.show = false; 
 
       // Riabilita lo scroll dopo che la splash screen è nascosta
       document.body.style.overflow = 'auto';
-    }, 2000); // 2000ms = 2 secondi
+
+    }, 2000); 
   },
-  beforeDestroy() {
+
+  unmounted() {
+    console.log('SplashPage unmonted')
     document.body.style.overflow = 'auto';
   }
+
 };
 </script>
 
@@ -77,7 +88,7 @@ export default {
 .loading-text {
   margin-top: 10px;
   font-size: 1.5rem;
-  color: white;
+  color: white; 
   font-weight: normal;
 }
 

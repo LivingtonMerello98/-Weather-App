@@ -1,5 +1,9 @@
 <script>
+
+//destrutturazione dello store dal file store.
 import { store } from './store';
+
+//import componenti
 import SearchBarComponent from './components/SearchBarComponent.vue';
 import CurrentWeather from './components/CurrentWeather.vue';
 import DailyForecast from './components/DailyForecast.vue';
@@ -10,48 +14,69 @@ import SideMenu from './components/SideMenu.vue'; // Importa SideMenu
 export default {
   data() {
     return {
-      showSplash: true, // La splash page è visibile inizialmente
+
+      //flag a true per mostrare la splashPage.
+      showSplash: true, 
+
     };
   },
   components: {
+
+    //registrazione componenti
     SplashPage,
     SearchBarComponent,
     CurrentWeather,
     DailyForecast,
     HourlyForecast,
-    SideMenu, // Aggiungi SideMenu ai componenti
+    SideMenu, 
   },
+
+  //funzioni reattive ai cambiamenti in store
   computed: {
-    isLoading() {
-      return store.getters.isLoading();
-    },
+
+    //funzione get in store per il messaggio di errore
     errorMessage() {
       return store.getters.errorMessage();
+    },
+
+    isLoading() {
+      return store.getters.isLoading();
     }
+
   },
+
+  //ciclo di vita mounted: appena il componente è disponibile nel dom
   mounted() {
+
+    //con setiTimeOut cambiamo il flag a false con 1s di ritardo.
     setTimeout(() => {
       this.showSplash = false;
     }, 1000); 
+
   },
 };
 </script>
 
 <template>
   <section class="bg-gradient-to-b from-gray-700 to-gray-900 text-gray-100 min-h-screen p-8">
-    <!-- Splash Page -->
+
+
+    <!-- Splash Page, visibie se il flag è a true -->
     <SplashPage v-if="showSplash" />
+
 
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- Search Bar -->
       <SearchBarComponent />
 
-      <!-- Messaggio di errore -->
+
+
       <div v-if="errorMessage" class="text-red-500 text-center">
         {{ errorMessage }}
       </div>
 
-      <!-- Indicatore di caricamento -->
+
+      <!-- se il valore è true sta ancora caricando -->
       <div v-if="isLoading" class="flex justify-center">
         <p>Loading...</p>
       </div>
@@ -72,7 +97,7 @@ export default {
       </div>
     </div>
 
-    <!-- Side Menu (visibile in base allo store) -->
+    <!-- Side Menu-->
     <SideMenu />
   </section>
 </template>

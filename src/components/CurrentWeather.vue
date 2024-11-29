@@ -1,61 +1,98 @@
 <script>
+//blocco del tempo corrente
 import { store } from '../store';
 
 export default {
+  name: 'CurrentWeather', // Nome del componente
+
   data() {
     return {
-      dataLoaded: false, // Variabile per controllare il caricamento dei dati
+      dataLoaded: false, // Controlla se i dati meteo sono stati caricati
     };
   },
+
   computed: {
+    // Recupera il nome della città corrente dallo store
     currentCity() {
       return store.getters.cityName();
     },
+
+    // Recupera i dati meteo correnti dallo store
     currentWeather() {
       return store.getters.currentWeather();
     },
+
+    // COntrolla se getters.currentWeather restituisce risultati con il chaining operator
+    // - Se restituisce qualcosa accediamo alla proprietà .temp
+    // - Converte la temperatura da Kelvin a Celsius
     temperature() {
       return this.currentWeather ? (this.currentWeather.temp - 273.15).toFixed(1) : null;
     },
+
+    // Converte la temperatura "percepita" da Kelvin a Celsius
     feelsLike() {
       return this.currentWeather ? (this.currentWeather.feels_like - 273.15).toFixed(1) : null;
     },
+
+    // Ritorna il livello di umidità
     humidity() {
       return this.currentWeather ? this.currentWeather.humidity : null;
     },
+
+    // Ritorna la pressione atmosferica
     pressure() {
       return this.currentWeather ? this.currentWeather.pressure : null;
     },
+
+    // Descrizione testuale del meteo (es. "clear sky")
     weatherDescription() {
       return this.currentWeather.weather?.[0]?.description || '';
     },
+
+    // Icona del meteo (codice immagine da OpenWeather)
     weatherIcon() {
       return this.currentWeather.weather?.[0]?.icon || '';
     },
+
+    // Indice UV (radiazione ultravioletta)
     uvi() {
       return this.currentWeather ? this.currentWeather.uvi : null;
     },
+
+    // Velocità del vento
     windSpeed() {
       return this.currentWeather ? this.currentWeather.wind_speed : null;
     },
+
+    // Visibilità (in metri)
     visibility() {
       return this.currentWeather ? this.currentWeather.visibility : null;
     },
+
+    // Larghezza barra UV (in percentuale, usata per l'animazione)
     uviWidth() {
       return this.dataLoaded ? `${this.uvi * 9.09}%` : '0%';
     },
+
+    // Larghezza barra velocità del vento (in percentuale)
     windSpeedWidth() {
       return this.dataLoaded ? `${Math.min(this.windSpeed, 30) * 3.33}%` : '0%';
     },
+
+    // Larghezza barra visibilità (in percentuale)
     visibilityWidth() {
       return this.dataLoaded ? `${this.visibility / 100}%` : '0%';
     },
+
+    // Controlla se la città è tra i preferiti
     isCityInFavourites() {
-      // Controlla se la città è già nei preferiti
       return store.state.favourites.includes(this.currentCity);
     }
   },
+
   watch: {
+
+    // Osserva i cambiamenti nei dati meteo e avvia l'animazione al caricamento
     currentWeather(newValue) {
       if (newValue) {
         setTimeout(() => {
@@ -63,31 +100,38 @@ export default {
         }, 100);
       }
     },
+    
   },
+
   methods: {
+    // Aggiunge la città corrente ai preferiti
     addToFavourites() {
-      // Aggiungi la città ai preferiti solo se non è già presente
       if (!this.isCityInFavourites) {
         store.mutations.ADD_FAVOURITE(this.currentCity);
       }
     },
+
+    // Seleziona una città, aggiorna lo stato e chiama l'API per i nuovi dati meteo
     selectCity(city) {
-    store.mutations.SET_CITY_NAME(city);
-    store.actions.fetchWeatherData(city);
-    store.mutations.CLOSE_MENU();
+      store.mutations.SET_CITY_NAME(city); // Aggiorna il nome della città
+      store.actions.fetchWeatherData(city); // Recupera i dati meteo
+      store.mutations.CLOSE_MENU(); // Chiude il menu
+    },
   },
-  },
+
   mounted() {
+    // Avvia l'animazione delle barre al caricamento del componente
     this.$nextTick(() => {
       if (this.currentWeather) {
         setTimeout(() => {
           this.dataLoaded = true;
-        }, 100); // Avvio dell'animazione con 100ms di ritardo
+        }, 100);
       }
     });
   },
 };
 </script>
+
 
 <template>
   <div class="flex flex-col items-center text-center space-y-4 px-4">
@@ -224,12 +268,12 @@ export default {
     opacity: 1;
   }
   50% {
-    transform: scale(1.5); /* Espandi l'onda */
-    opacity: 0; /* Fai svanire l'onda a metà */
+    transform: scale(1.5); 
+    opacity: 0; 
   }
   100% {
-    transform: scale(2); /* Espandi ancora di più l'onda */
-    opacity: 1; /* Rendi l'onda visibile di nuovo */
+    transform: scale(2); 
+    opacity: 1; 
   }
 }
 
@@ -239,12 +283,12 @@ export default {
     opacity: 1;
   }
   50% {
-    transform: scale(1.5); /* Crescita dell'onda */
-    opacity: 0.5; /* Rendi l'onda un po' trasparente */
+    transform: scale(1.5); 
+    opacity: 0.5; 
   }
   100% {
-    transform: scale(2); /* Continua l'espansione dell'onda */
-    opacity: 0; /* Fai scomparire l'onda */
+    transform: scale(2); 
+    opacity: 0;
   }
 }
 
