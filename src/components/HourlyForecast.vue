@@ -31,7 +31,7 @@ export default {
               const { ctx, chartArea } = chart;
               if (!chartArea) return;
 
-              const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+              const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
 
               gradient.addColorStop(0, '#3b82f6'); // Colore blu per temperatura minima
               gradient.addColorStop(0.5, '#38bdf8'); // Colore intermedio (blu chiaro)
